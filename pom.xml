@@ -355,8 +355,8 @@
                                 <path>/</path>
                                 <contextReloadable>true</contextReloadable>
                                 <uriEncoding>UTF-8</uriEncoding>
-                                <port>8080</port>
-                                <url>http://localhost:8080/manager</url>
+                                <port>${server.port}</port>
+                                <url>http://localhost:8088/manager</url>
                                 <server>tomcat</server>
                                 <username>admin</username>
                                 <password>admin</password>
@@ -424,7 +424,6 @@
         </pluginManagement>
     </build>
 
-
     <developers>
         <developer>
             <name>Long Zhao Bi</name>
@@ -436,6 +435,5 @@
             <timezone>+8</timezone>
         </developer>
     </developers>
-
 
 </project>

@@ -8,8 +8,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>loozb-sys-service</artifactId>
     <packaging>war</packaging>
-    <name>loozb-sys-service Maven Webapp</name>
+    <name>loozb-sys-service</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <server.port>8087</server.port>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.loozb</groupId>

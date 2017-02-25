@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>loozb-sys-web</artifactId>
     <packaging>war</packaging>
-    <name>loozb-sys-web Maven Webapp</name>
+    <name>loozb-sys-web</name>
     <url>http://maven.apache.org</url>
     <build>
         <finalName>loozb-sys-web</finalName>

@@ -15,134 +15,52 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseModel implements Serializable {
-    @TableId(value = "id_", type = IdType.ID_WORKER)
+    @TableId(value = "id", type = IdType.ID_WORKER)
     private Long id;
-    @TableField("enable_")
-    private Integer enable;
-    @TableField("remark_")
-    private String remark;
-    private Long createBy;
-    private Date createTime;
-    private Long updateBy;
-    private Date updateTime;
+    private String available;
+    @TableField("create_id")
+    private Long createId;
+    private Date ctime;
+    private Date mtime;
 
-    @TableField(exist = false)
-    private String keyword;
-
-    /**
-     * @return the id
-     */
     public Long getId() {
         return id;
     }
 
-    public String getId_() {
-        return id == null ? "" : id.toString();
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * @return the enable
-     */
-    public Integer getEnable() {
-        return enable;
+    public String getAvailable() {
+        return available;
     }
 
-    /**
-     * @param enable
-     *            the enable to set
-     */
-    public void setEnable(Integer enable) {
-        this.enable = enable;
+    public void setAvailable(String available) {
+        this.available = available;
     }
 
-    /**
-     * @return the remark
-     */
-    public String getRemark() {
-        return remark;
+    public Long getCreateId() {
+        return createId;
     }
 
-    /**
-     * @param remark
-     *            the remark to set
-     */
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setCreateId(Long createId) {
+        this.createId = createId;
     }
 
-    /**
-     * @return the createBy
-     */
-    public Long getCreateBy() {
-        return createBy;
+    public Date getCtime() {
+        return ctime;
     }
 
-    /**
-     * @param createBy
-     *            the createBy to set
-     */
-    public void setCreateBy(Long createBy) {
-        this.createBy = createBy;
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
     }
 
-    /**
-     * @return the createTime
-     */
-    public Date getCreateTime() {
-        return createTime;
+    public Date getMtime() {
+        return mtime;
     }
 
-    /**
-     * @param createTime
-     *            the createTime to set
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return the updateBy
-     */
-    public Long getUpdateBy() {
-        return updateBy;
-    }
-
-    /**
-     * @param updateBy
-     *            the updateBy to set
-     */
-    public void setUpdateBy(Long updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    /**
-     * @return the updateTime
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * @param updateTime
-     *            the updateTime to set
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setMtime(Date mtime) {
+        this.mtime = mtime;
     }
 }
+

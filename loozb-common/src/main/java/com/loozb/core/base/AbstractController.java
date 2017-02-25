@@ -3,7 +3,6 @@ package com.loozb.core.base;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
@@ -34,7 +33,7 @@ public abstract class AbstractController<T extends BaseProvider> extends BaseCon
     }
 
     public Object get(ModelMap modelMap, BaseModel param) {
-        Parameter parameter = new Parameter(getService(), "queryById").setId(param.getId());
+        Parameter parameter = new Parameter(getService(), "queryById").setId(1L);
         BaseModel result = provider.execute(parameter).getModel();
         return setSuccessModelMap(modelMap, result);
     }
@@ -42,9 +41,8 @@ public abstract class AbstractController<T extends BaseProvider> extends BaseCon
     public Object update(ModelMap modelMap, BaseModel param) {
         Long userId = getCurrUser();
         if (param.getId() == null) {
-            param.setCreateBy(userId);
+            param.setCreateId(userId);
         }
-        param.setUpdateBy(userId);
         Parameter parameter = new Parameter(getService(), "update").setModel(param);
         provider.execute(parameter);
         return setSuccessModelMap(modelMap);

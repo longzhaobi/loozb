@@ -23,10 +23,10 @@ import java.util.Map;
  * @Author： 龙召碧
  * @Date: Created in 2017-2-25 19:55
  */
-public class BaseService<T extends BaseModel> implements ApplicationContextAware {
+public abstract class BaseService<T extends BaseModel> implements ApplicationContextAware {
 
     protected Logger logger = LogManager.getLogger(getClass());
-    @Autowired
+    @Autowired(required = true)
     protected BaseMapper<T> mapper;
     protected ApplicationContext applicationContext;
 
@@ -132,9 +132,8 @@ public class BaseService<T extends BaseModel> implements ApplicationContextAware
     public void del(Long id, Long userId) {
         try {
             T record = this.queryById(id);
-            record.setEnable(0);
-            record.setUpdateTime(new Date());
-            record.setUpdateBy(userId);
+            record.setAvailable("0");
+            record.setMtime(new Date());
             mapper.updateById(record);
             CacheUtil.getCache().set(getCacheKey(id), record);
         } catch (Exception e) {
@@ -157,9 +156,9 @@ public class BaseService<T extends BaseModel> implements ApplicationContextAware
     @Transactional
     public T update(T record) {
         try {
-            record.setUpdateTime(new Date());
+            record.setMtime(new Date());
             if (record.getId() == null) {
-                record.setCreateTime(new Date());
+                record.setCtime(new Date());
                 mapper.insert(record);
             } else {
                 String lockKey = getClass().getName() + record.getId();
