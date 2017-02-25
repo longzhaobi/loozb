@@ -1,4 +1,4 @@
-MyBatis Spring Adapter
+LOOZB
 ======================
 
 [![Build Status](https://travis-ci.org/mybatis/spring.svg?branch=master)](https://travis-ci.org/mybatis/spring)
@@ -14,4 +14,4 @@ MyBatis-Spring adapter is an easy-to-use Spring3 bridge for MyBatis sql mapping 
 Essentials
 ----------
 
-* [See the docs](http://mybatis.github.io/spring/)
+* [See the url](http://loozb.com/)
