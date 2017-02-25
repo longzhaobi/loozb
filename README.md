@@ -9,9 +9,9 @@ LOOZB
 
 ![mybatis-spring](http://mybatis.github.io/images/mybatis-logo.png)
 
-## loozb项目简介
+## LOOZB项目简介
 
-- 本项目完全参考[iBase4J](https://git.oschina.net/iBase4J/iBase4J)
+- 本项目完全参考开源项目 [iBase4J](https://git.oschina.net/iBase4J/iBase4J)
 - 采用Java语言的分布式系统架构，使用Spring整合开源框架。
 - 使用Maven对项目进行模块化管理，提高项目的易开发性、扩展性。
 - 系统包括三个模块：公共模块、系统管理模块、Web展示模块。
