@@ -3,13 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.loozb</groupId>
     <artifactId>loozb</artifactId>
     <version>1.0</version>
     <name>loozb</name>
     <packaging>pom</packaging>
     <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>loozb-sys-web</module>
+        <module>loozb-sys-model</module>
+        <module>loozb-common</module>
+        <module>loozb-sys-service</module>
+    </modules>
 
     <!-- clean package -P build tomcat7:run-war-only -->
 
@@ -349,7 +355,7 @@
                                 <path>/</path>
                                 <contextReloadable>true</contextReloadable>
                                 <uriEncoding>UTF-8</uriEncoding>
-                                <port>${server.port}</port>
+                                <port>8080</port>
                                 <url>http://localhost:8080/manager</url>
                                 <server>tomcat</server>
                                 <username>admin</username>

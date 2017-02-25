@@ -1,2 +1,10 @@
 /.idea
 /*.iml
+/loozb-common/*.iml
+/loozb-common/target
+/loozb-sys-model/*.iml
+/loozb-sys-model/target
+/loozb-sys-service/*.iml
+/loozb-sys-service/target
+/loozb-sys-web/*.iml
+/loozb-sys-web/target
