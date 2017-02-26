@@ -40,11 +40,11 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         Integer current = 1;
         Integer size = 10;
         String orderBy = "id";
-        if (DataUtil.isNotEmpty(params.get("pageNum"))) {
-            current = Integer.valueOf(params.get("pageNum").toString());
+        if (DataUtil.isNotEmpty(params.get("pages"))) {
+            current = Integer.valueOf(params.get("pages").toString());
         }
-        if (DataUtil.isNotEmpty(params.get("pageSize"))) {
-            size = Integer.valueOf(params.get("pageSize").toString());
+        if (DataUtil.isNotEmpty(params.get("size"))) {
+            size = Integer.valueOf(params.get("size").toString());
         }
         if (DataUtil.isNotEmpty(params.get("orderBy"))) {
             orderBy = (String) params.get("orderBy");

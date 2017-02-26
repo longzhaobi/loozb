@@ -25,6 +25,7 @@ import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 登录权限管理
@@ -42,17 +43,16 @@ public class Realm extends AuthorizingRealm {
     // 权限
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//        Long userId = WebUtil.getCurrentUser();
-//        Parameter parameter = new Parameter("sysAuthorizeService", "queryPermissionByUserId").setId(userId);
-//        List<?> list = provider.execute(parameter).getList();
-//        for (Object permission : list) {
-//            if (StringUtils.isNotBlank((String) permission)) {
-//                // 添加基于Permission的权限信息
-//                info.addStringPermission((String) permission);
-//            }
-//        }
+        Long userId = WebUtil.getCurrentUser();
+        Parameter rolesParameter = new Parameter("sysAuthService", "findRoles").setId(userId);
+        Set<String> roles = (Set<String>)provider.execute(rolesParameter).getSet();
+
+        //获取权限信息
+        Parameter permissionsParameter = new Parameter("sysAuthService", "findPermissions").setId(userId);
+        Set<String> permissions = (Set<String>)provider.execute(permissionsParameter).getSet();
         // 添加用户权限
-        info.addStringPermission("user");
+        info.setRoles(roles);
+        info.setStringPermissions(permissions);
         return info;
     }
 

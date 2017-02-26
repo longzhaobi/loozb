@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- Realm实现 -->
+    <bean id="userRealm" class="com.loozb.core.shiro.realm.StatelessRealm" />
+
+    <!-- Subject工厂，采用无session模式 -->
+    <bean id="subjectFactory" class="com.loozb.core.shiro.factory.StatelessDefaultSubjectFactory"/>
+
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+    </bean>
+    
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+        <!--<property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled" value="false"/>-->
+        <property name="subjectFactory" ref="subjectFactory"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager)-->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean> 
+	
+	<bean id="currentUserFilter" class="com.loozb.core.shiro.filter.CurrentUserFilter"/>
+    <bean id="statelessAuthcFilter" class="com.loozb.core.shiro.filter.StatelessAuthcFilter"/>
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="filters">
+            <util:map>
+                <entry key="stateAuthc" value-ref="statelessAuthcFilter"/>
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /=anon
+                /index.jsp=anon
+                /regin=anon
+                /login=anon
+                /*.ico=anon
+                /upload/*=anon
+                /unauthorized=anon
+                /forbidden=anon
+                /sns*=anon
+                /*/api-docs=anon
+                /callback*=anon
+                /swagger*=anon
+                /configuration/*=anon
+                /*/configuration/*=anon
+                /webjars/**=anon
+                /** = stateAuthc, currentUserFilter
+            </value>
+        </property>
+    </bean>
+
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

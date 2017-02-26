@@ -20,6 +20,12 @@ public abstract class AbstractController<T extends BaseProvider> extends BaseCon
 
     public abstract String getService();
 
+    /**
+     * 返回分页信息
+     * @param modelMap
+     * @param param
+     * @return
+     */
     public Object query(ModelMap modelMap, Map<String, Object> param) {
         Parameter parameter = new Parameter(getService(), "query").setMap(param);
         Page<?> list = provider.execute(parameter).getPage();

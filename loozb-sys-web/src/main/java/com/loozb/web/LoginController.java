@@ -1,27 +1,25 @@
 package com.loozb.web;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.loozb.core.base.AbstractController;
 import com.loozb.core.base.Parameter;
-import com.loozb.core.config.Resources;
-import com.loozb.core.exception.LoginException;
 import com.loozb.core.support.Assert;
-import com.loozb.core.util.WebUtil;
+import com.loozb.core.util.CacheUtil;
+import com.loozb.core.util.JsonUtil;
+import com.loozb.core.utils.PasswordUtil;
+import com.loozb.model.SysUser;
 import com.loozb.model.ext.Authority;
 import com.loozb.model.ext.SysResourceBean;
 import com.loozb.provider.ISysProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.subject.Subject;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户登录
@@ -45,46 +43,49 @@ public class LoginController extends AbstractController<ISysProvider> {
         Assert.notNull(account, "ACCOUNT");
         Assert.notNull(password, "PASSWORD");
         String error = null;
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(account,
-                password);
-        try {
-            token.setRememberMe(true);
-            subject.login(token);
-        } catch (LockedAccountException e) {
-            error = "帐号已经锁定";
-        } catch (UnknownAccountException e) {
-            error = "用户名/密码错误";
-        } catch (IncorrectCredentialsException e) {
-            error = "用户名/密码错误";
-        } catch (DisabledAccountException e) {
-            error = "账号被禁用";
-        } catch (ExcessiveAttemptsException e) {
-            error = "登录失败次数过多，账号锁定一个小时";
-        } catch (ExpiredCredentialsException e) {
-            error = "凭证过期";
-        } catch (Exception e) {
-            e.printStackTrace();
-            error = "其他错误：" + e.getMessage();
-            throw new LoginException(Resources.getMessage("LOGIN_FAIL"), e);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("available", "1");
+        params.put("account", account);
+        Parameter parameter = new Parameter("sysUserService", "query").setMap(params);
+        Page<?> pageInfo = provider.execute(parameter).getPage();
+        if (pageInfo.getTotal() == 1) {
+            SysUser user = (SysUser) pageInfo.getRecords().get(0);
+            if(user == null) {
+                error = "账号或者密码错误";
+            }
+
+            if("1".equals(user.getLocked())) {
+                error = "该帐号已锁定";
+            }
+
+            if(user.getPassword().equals(PasswordUtil.decryptPassword(password, user.getSalt()))) {
+                //获取角色信息
+                Parameter rolesParameter = new Parameter("sysAuthService", "findRoles").setId(user.getId());
+                Set<String> roles = (Set<String>)provider.execute(rolesParameter).getSet();
+
+                //获取权限信息
+                Parameter permissionsParameter = new Parameter("sysAuthService", "findPermissions").setId(user.getId());
+                Set<String> permissions = (Set<String>)provider.execute(permissionsParameter).getSet();
+
+                //获取资源信息
+                Parameter sysResourceBeanParameter = new Parameter("sysResourceService", "getMenus").setId(user.getId());
+                List<SysResourceBean> menus = (List<SysResourceBean>)provider.execute(sysResourceBeanParameter).getList();
+
+                // 生成token
+                String token = UUID.randomUUID().toString();
+                user.setPassword(null);
+                user.setSalt(null);
+
+                CacheUtil.getCache().set("REDIS_SESSION:" + token, JsonUtil.objectToJson(user), 1800);
+                return setSuccessModelMap(modelMap, new Authority(token, roles, permissions, menus));
+            }
+
+            logger.warn("USER [{}] PASSWORD IS WRONG: {}", user.getUsername(), password);
+            return null;
+        } else {
+            logger.warn("No user: {}", account);
+            return null;
         }
-
-        if(error != null) {
-            Long id = WebUtil.getCurrentUser();
-            //获取角色信息
-            Parameter rolesParameter = new Parameter("sysAuthService", "findRoles").setId(id);
-            Set<String> roles = (Set<String>)provider.execute(rolesParameter).getSet();
-
-            //获取权限信息
-            Parameter permissionsParameter = new Parameter("sysAuthService", "findPermissions").setId(id);
-            Set<String> permissions = (Set<String>)provider.execute(permissionsParameter).getSet();
-
-            //获取资源信息
-            Parameter sysResourceBeanParameter = new Parameter("sysResourceService", "getMenus").setId(id);
-            List<SysResourceBean> menus = (List<SysResourceBean>)provider.execute(sysResourceBeanParameter).getList();
-
-            return setSuccessModelMap(modelMap, new Authority(roles, permissions, menus));
-        }
-        throw new LoginException(error);
     }
 }

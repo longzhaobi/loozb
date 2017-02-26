@@ -18,13 +18,16 @@ public class MaliciousRequestInterceptor extends BaseInterceptor {
 	private Long minRequestIntervalTime; // 允许的最小请求间隔
 	private Integer maxMaliciousTimes; // 允许的最大恶意请求次数
 
+	/**
+	 * preHandle方法是进行处理器拦截用的，顾名思义，该方法将在Controller处理之前进行调用，
+	 * SpringMVC中的Interceptor拦截器是链式的，可以同时存在多个Interceptor，
+	 * 然后SpringMVC会根据声明的前后顺序一个接一个的执行，
+	 * 而且所有的Interceptor中的preHandle方法都会在Controller方法调用之前调用。
+	 * SpringMVC的这种Interceptor链式结构也是可以进行中断的，
+	 * 这种中断方式是令preHandle的返回值为false，当preHandle的返回值为false的时候整个请求就结束了。
+	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,OPTIONS,DELETE");
-		response.setHeader("Access-Control-Allow-Headers",
-				"x-requested-with,Access-Control-Allow-Origin,EX-SysAuthToken,EX-JSESSIONID");
-
 		String url = request.getServletPath();
 		if (url.endsWith("/unauthorized") || url.endsWith("/forbidden")) {
 			return super.preHandle(request, response, handler);

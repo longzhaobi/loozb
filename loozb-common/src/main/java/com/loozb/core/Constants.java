@@ -55,7 +55,7 @@ public interface Constants {
     /**
      * 缓存命名空间
      */
-    public static final String CACHE_NAMESPACE = "iBase4J:";
+    public static final String CACHE_NAMESPACE = "loozb:";
 
     /**
      * 日志表状态
