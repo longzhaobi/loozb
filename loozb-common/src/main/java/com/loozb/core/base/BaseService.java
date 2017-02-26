@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 统一查询，因为查询已经封装，故将用到的mapper也统一封装
  * 业务逻辑层基类<br/>
  * 继承基类后必须配置CacheConfig(cacheNames="")
  * @Author： 龙召碧
@@ -38,7 +39,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     public static Page<Long> getPage(Map<String, Object> params) {
         Integer current = 1;
         Integer size = 10;
-        String orderBy = "id_";
+        String orderBy = "id";
         if (DataUtil.isNotEmpty(params.get("pageNum"))) {
             current = Integer.valueOf(params.get("pageNum").toString());
         }

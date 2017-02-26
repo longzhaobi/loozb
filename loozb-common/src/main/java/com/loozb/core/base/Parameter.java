@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 参数定义
@@ -20,6 +21,7 @@ public class Parameter implements Serializable {
     private Map<?, ?> map;
     private Page<?> page;
     private List<?> list;
+    private Set<?> set;
 
     public Parameter() {
     }
@@ -40,6 +42,8 @@ public class Parameter implements Serializable {
             this.map = (Map<?, ?>) result;
         } else if (result instanceof List<?>) {
             this.list = (List<?>) result;
+        } else if (result instanceof Set<?>) {
+            this.set = (Set<?>) result;
         }
     }
 
@@ -102,6 +106,15 @@ public class Parameter implements Serializable {
 
     public Parameter setList(List<?> list) {
         this.list = list;
+        return this;
+    }
+
+    public Set<?> getSet() {
+        return set;
+    }
+
+    public Parameter setSet(Set<?> set) {
+        this.set = set;
         return this;
     }
 }

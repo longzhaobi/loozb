@@ -30,7 +30,7 @@ public class SysUserController extends AbstractController<ISysProvider> {
     // 查询用户
     @ApiOperation(value = "查询用户")
 //    @RequiresPermissions("sys.base.user.read")
-    @GetMapping(value = "login")
+    @GetMapping(value = "login1")
     public Object query(ModelMap modelMap) {
         return super.get(modelMap, new SysUser());
     }

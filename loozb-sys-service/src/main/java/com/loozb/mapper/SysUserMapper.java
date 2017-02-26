@@ -12,4 +12,5 @@ import com.loozb.model.SysUser;
  * @since 2017-02-25
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
+//    List<Long> selectIdPage(@Param("cm") Map<String, Object> params);
 }

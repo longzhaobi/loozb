@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loozb.mapper.SysLogMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.loozb.model.SysLog">
+		<result column="url" property="url" />
+		<result column="host" property="host" />
+		<result column="identity_id" property="identityId" />
+		<result column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="status" property="status" />
+		<result column="msg" property="msg" />
+		<result column="table_name" property="tableName" />
+		<result column="description" property="description" />
+		<result column="method" property="method" />
+		<result column="module" property="module" />
+		<result column="request_param" property="requestParam" />
+		<result column="content" property="content" />
+		<result column="user_agent" property="userAgent" />
+		<result column="runtime" property="runtime" />
+		<result column="unique_key" property="uniqueKey" />
+	</resultMap>
+
+</mapper>

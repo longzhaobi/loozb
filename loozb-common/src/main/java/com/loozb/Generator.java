@@ -51,12 +51,12 @@ public class Generator {
 		StrategyConfig strategy = new StrategyConfig();
 		// strategy.setTablePrefix("sys_");// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		strategy.setInclude(new String[] { "sys_user" }); // 需要生成的表
-		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
+//		strategy.setInclude(new String[] { "sys_user" }); // 需要生成的表
+		 strategy.setExclude(new String[]{"sys_user"}); // 排除生成的表
 		// 字段名生成策略
 		strategy.setFieldNaming(NamingStrategy.underline_to_camel);
 		// 自定义实体父类
-		strategy.setSuperEntityClass("com.core.base.BaseModel");
+		strategy.setSuperEntityClass("com.loozb.core.base.BaseModel");
 		// 自定义实体，公共字段
 		strategy.setSuperEntityColumns(
 				new String[] { "id", "available", "ctime", "mtime", "create_id" });
