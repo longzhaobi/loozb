@@ -6,6 +6,7 @@ import com.loozb.core.base.Parameter;
 import com.loozb.core.support.Assert;
 import com.loozb.core.util.CacheUtil;
 import com.loozb.core.util.JsonUtil;
+import com.loozb.core.util.WebUtil;
 import com.loozb.core.utils.PasswordUtil;
 import com.loozb.model.SysUser;
 import com.loozb.model.ext.Authority;
@@ -14,6 +15,7 @@ import com.loozb.provider.ISysProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,7 +58,16 @@ public class LoginController extends AbstractController<ISysProvider> {
             }
 
             if("1".equals(user.getLocked())) {
-                error = "该帐号已锁定";
+                error = "该帐锁定";
+            }
+
+            //判断该用户是否已经登录，如果已经登录，则强制对方下线
+            String token = WebUtil.getTokenByUsername(user.getUsername());
+
+            if(StringUtils.isNotBlank(token)) {
+                //假如token不为空，将其清空，使对方不能登录
+                CacheUtil.getCache().del("REDIS_SESSION:TOKEN:" + token);
+                CacheUtil.getCache().del("REDIS_SESSION:USERNAME:" + user.getUsername());
             }
 
             if(user.getPassword().equals(PasswordUtil.decryptPassword(password, user.getSalt()))) {
@@ -73,12 +84,14 @@ public class LoginController extends AbstractController<ISysProvider> {
                 List<SysResourceBean> menus = (List<SysResourceBean>)provider.execute(sysResourceBeanParameter).getList();
 
                 // 生成token
-                String token = UUID.randomUUID().toString();
+                String accessToken = UUID.randomUUID().toString();
                 user.setPassword(null);
                 user.setSalt(null);
 
-                CacheUtil.getCache().set("REDIS_SESSION:" + token, JsonUtil.objectToJson(user), 1800);
-                return setSuccessModelMap(modelMap, new Authority(token, roles, permissions, menus));
+                CacheUtil.getCache().set("REDIS_SESSION:TOKEN:" + accessToken, JsonUtil.objectToJson(user), 1800);
+                CacheUtil.getCache().set("REDIS_SESSION:USERNAME:" + user.getUsername(), accessToken, 1800);
+                CacheUtil.getCache().set("REDIS_SESSION:USERID:" + user.getUsername(), user.getId(), 1800);
+                return setSuccessModelMap(modelMap, new Authority(accessToken, roles, permissions, menus,user));
             }
 
             logger.warn("USER [{}] PASSWORD IS WRONG: {}", user.getUsername(), password);
