@@ -51,11 +51,11 @@ public abstract class AbstractController<T extends BaseProvider> extends BaseCon
         }
         Parameter parameter = new Parameter(getService(), "update").setModel(param);
         provider.execute(parameter);
-        return setSuccessModelMap(modelMap);
+        return setSuccessModelMap(modelMap,"更新成功");
     }
 
-    public Object delete(ModelMap modelMap, BaseModel param) {
-        Parameter parameter = new Parameter(getService(), "delete").setId(param.getId());
+    public Object delete(ModelMap modelMap, Long id) {
+        Parameter parameter = new Parameter(getService(), "delete").setId(id);
         provider.execute(parameter);
         return setSuccessModelMap(modelMap);
     }

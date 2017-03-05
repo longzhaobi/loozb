@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.loozb.core.base.BaseService;
 import com.loozb.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -105,5 +103,27 @@ public class SysAuthService extends BaseService<SysAuth> {
             }
         }
         return sets;
+    }
+
+    public void allot(Map<String, Object> params) {
+        Long userId = (Long) params.get("id");
+        String roleIds = (String) params.get("roleIds");
+
+        //在给用户授权之前，需要删除目前拥有的所有权限,物理删除
+        List<SysAuth> list = mapper.selectList(new EntityWrapper<SysAuth>().eq("user_id", userId));
+        for (SysAuth auth: list) {
+            super.delete(auth.getId());
+        }
+
+        if(StringUtils.isNotBlank(roleIds)) {
+            String[] roles = roleIds.split(",");
+            for (String roleId : roles) {
+                SysAuth auth = new SysAuth();
+                auth.setUserId(userId);
+                auth.setRoleId(Long.valueOf(roleId));
+                super.update(auth);
+            }
+        }
+
     }
 }

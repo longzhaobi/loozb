@@ -19,9 +19,10 @@
 		<property name="globalConfig">
 			<bean class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
 				<property name="dbColumnUnderline" value="true" />
-				 <property name="sqlInjector">
-				 	<bean class="com.baomidou.mybatisplus.mapper.AutoSqlInjector" />
-				 </property>
+				<!--<property name="idType" value="0" />-->
+				<property name="sqlInjector">
+					<bean class="com.baomidou.mybatisplus.mapper.AutoSqlInjector" />
+				</property>
 			</bean>
 		</property>
 	</bean>

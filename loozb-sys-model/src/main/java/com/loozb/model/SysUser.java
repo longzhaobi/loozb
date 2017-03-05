@@ -59,6 +59,11 @@ public class SysUser extends BaseModel {
 	private String idcard;
 	private String birthday;
 
+	@TableField(exist = false)
+	private String roleIds;
+	@TableField(exist = false)
+	private String roleNames;
+
 
 	public Long getOrganId() {
 		return organId;
@@ -156,4 +161,19 @@ public class SysUser extends BaseModel {
 		this.birthday = birthday;
 	}
 
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
+	}
+
+	public String getRoleNames() {
+		return roleNames;
+	}
+
+	public void setRoleNames(String roleNames) {
+		this.roleNames = roleNames;
+	}
 }

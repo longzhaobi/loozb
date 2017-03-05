@@ -48,10 +48,10 @@
             <value>
                 /=anon
                 /index.jsp=anon
-                /regin=anon
-                /login=anon
+                /api/regin=anon
+                /api/login=anon
                 /*.ico=anon
-                /upload/*=anon
+                /api/upload/*=anon
                 /unauthorized=anon
                 /forbidden=anon
                 /sns*=anon

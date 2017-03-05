@@ -154,14 +154,19 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         }
     }
 
+    /**
+     * 新增 or 删除
+     * @param record
+     * @return
+     */
     @Transactional
     public T update(T record) {
         try {
-            record.setMtime(new Date());
             if (record.getId() == null) {
                 record.setCtime(new Date());
                 mapper.insert(record);
             } else {
+                record.setMtime(new Date());
                 String lockKey = getClass().getName() + record.getId();
                 if (CacheUtil.getLock(lockKey)) {
                     try {
@@ -183,6 +188,11 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         return record;
     }
 
+    /**
+     * 通过主键查询，统一使用主键查询，实现缓存
+     * @param id
+     * @return
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public T queryById(Long id) {

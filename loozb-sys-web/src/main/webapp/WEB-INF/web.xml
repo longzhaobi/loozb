@@ -38,6 +38,15 @@
     <filter-name>cors</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <filter>
+    <filter-name>HttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 
   <!--<filter>-->
     <!--<filter-name>springSessionRepositoryFilter</filter-name>-->
@@ -75,6 +84,7 @@
     <filter-name>xssFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
@@ -98,6 +108,16 @@
     <servlet-name>SpringMVC</servlet-name>
     <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
+
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <servlet-name>SpringMVC</servlet-name>
+  </filter-mapping>
+
   <!--<session-config>-->
     <!--<session-timeout>30</session-timeout>-->
   <!--</session-config>-->

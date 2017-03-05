@@ -27,12 +27,22 @@ public final class WebUtil {
 
     private static Long CURRENT_USER_ID = 0L;
 
+    private static String CURRENT_USER_NAME = null;
+
     /**
      * 获取当前用户ID
      * @return
      */
     public static Long getCurrentUser() {
         return CURRENT_USER_ID;
+    }
+
+    /**
+     * 获取当前用户ID
+     * @return
+     */
+    public static String getCurrentUsername() {
+        return CURRENT_USER_NAME;
     }
 
     /**
@@ -65,10 +75,11 @@ public final class WebUtil {
                 String userId = o.getString("id");
                 //设置当前用户
                 WebUtil.CURRENT_USER_ID = Long.valueOf(userId);
+                WebUtil.CURRENT_USER_NAME = username;
                 //更新token和username
                 WebUtil.updateRedisKey("REDIS_SESSION:TOKEN:" + token);
                 WebUtil.updateRedisKey("REDIS_SESSION:USERNAME:" + username);
-                WebUtil.updateRedisKey("REDIS_SESSION:USERID:" + userId);
+                WebUtil.updateRedisKey("REDIS_SESSION:USERID:" + username);
                 return username;
             }
         }

@@ -136,6 +136,13 @@
             <artifactId>uasparser</artifactId>
             <version>0.6.2</version>
         </dependency>
+
+        <!-- json验证 -->
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>2.2.6</version>
+        </dependency>
     </dependencies>
 
 </project>

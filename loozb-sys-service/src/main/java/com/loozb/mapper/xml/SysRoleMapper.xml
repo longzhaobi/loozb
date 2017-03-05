@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loozb.mapper.SysRoleMapper">
-
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.loozb.model.SysRole">
-		<result column="role" property="role" />
-		<result column="name" property="name" />
-		<result column="description" property="description" />
-	</resultMap>
+	<!-- 查询列表-->
+	<select id="selectIdPage" resultType="java.lang.Long">
+		SELECT id FROM sys_role
+		<where>
+			<if test="cm.account != null and cm.account != ''">
+				and role = #{cm.role}
+			</if>
+			<if test="cm.password != null and cm.password != ''">
+				and name = #{cm.name}
+			</if>
+			<if test="cm.keyword != null and cm.keyword != ''">
+				and (role like CONCAT('%',#{cm.keyword},'%') or name like CONCAT('%',#{cm.keyword},'%'))
+			</if>
+			<if test="cm.available != null and cm.available != ''">
+				and available = #{cm.available}
+			</if>
+		</where>
+		ORDER BY id DESC
+	</select>
 
 </mapper>
