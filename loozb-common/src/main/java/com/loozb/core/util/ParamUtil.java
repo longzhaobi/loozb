@@ -14,7 +14,7 @@ public class ParamUtil {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("pages", pages);
         param.put("size", size);
-        param.put("keyWord", keyWord);
+        param.put("keyword", keyWord);
         param.put("orderBy", orderBy);
         return param;
     }
