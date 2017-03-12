@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.loozb.core.base.BaseModel;
 
+import java.util.List;
+
 
 /**
  * <p>
@@ -54,6 +56,14 @@ public class SysResource extends BaseModel {
 	@TableField("has_permission")
 	private String hasPermission;
 
+
+	//扩展
+	@TableField(exist = false)
+	private List<SysResource> children;
+	@TableField(exist = false)
+	private Boolean leaf = true;
+	@TableField(exist = false)
+	private String permissionText;
 
 	public Long getPid() {
 		return pid;
@@ -127,4 +137,27 @@ public class SysResource extends BaseModel {
 		this.hasPermission = hasPermission;
 	}
 
+	public List<SysResource> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<SysResource> children) {
+		this.children = children;
+	}
+
+	public Boolean getLeaf() {
+		return leaf;
+	}
+
+	public void setLeaf(Boolean leaf) {
+		this.leaf = leaf;
+	}
+
+	public String getPermissionText() {
+		return permissionText;
+	}
+
+	public void setPermissionText(String permissionText) {
+		this.permissionText = permissionText;
+	}
 }

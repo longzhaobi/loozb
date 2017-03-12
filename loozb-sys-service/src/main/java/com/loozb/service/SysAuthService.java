@@ -1,8 +1,8 @@
 package com.loozb.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.loozb.core.base.BaseService;
+import com.loozb.core.util.ParamUtil;
 import com.loozb.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,9 +65,9 @@ public class SysAuthService extends BaseService<SysAuth> {
         if(userId == null) {
             return null;
         }
-        Wrapper<SysAuth> wrapper = new EntityWrapper<>();
-        wrapper.eq("available", "1").eq("user_id", userId);
-        return mapper.selectList(wrapper);
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("userId", userId);
+        return super.queryList(params);
     }
 
     /**
@@ -125,5 +125,19 @@ public class SysAuthService extends BaseService<SysAuth> {
             }
         }
 
+    }
+
+    /**
+     * 根据角色信息获取权限信息
+     * @param roleId
+     * @return
+     */
+    public List<SysAuth> queryByRoleId(Long roleId) {
+        if(roleId == null) {
+            return null;
+        }
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("roleId", roleId);
+        return super.queryList(params);
     }
 }

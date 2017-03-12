@@ -8,9 +8,9 @@ import com.loozb.core.util.CacheUtil;
 import com.loozb.core.util.JsonUtil;
 import com.loozb.core.util.WebUtil;
 import com.loozb.core.utils.PasswordUtil;
+import com.loozb.model.SysResource;
 import com.loozb.model.SysUser;
 import com.loozb.model.ext.Authority;
-import com.loozb.model.ext.SysResourceBean;
 import com.loozb.provider.ISysProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,8 +80,8 @@ public class LoginController extends AbstractController<ISysProvider> {
                 Set<String> permissions = (Set<String>)provider.execute(permissionsParameter).getSet();
 
                 //获取资源信息
-                Parameter sysResourceBeanParameter = new Parameter("sysResourceService", "getMenus").setId(user.getId());
-                List<SysResourceBean> menus = (List<SysResourceBean>)provider.execute(sysResourceBeanParameter).getList();
+                Parameter SysResourceParameter = new Parameter("sysResourceService", "getMenus").setId(user.getId());
+                List<SysResource> menus = (List<SysResource>)provider.execute(SysResourceParameter).getList();
 
                 // 生成token
                 String accessToken = UUID.randomUUID().toString();

@@ -38,11 +38,11 @@ public class SysUserController extends AbstractController<ISysProvider> {
     @RequiresPermissions("user:view")
     @GetMapping
     public Object query(ModelMap modelMap,
-                        @ApiParam(required = false, value = "起始页") @RequestParam(defaultValue = "1", value = "pages") String pages,
+                        @ApiParam(required = false, value = "起始页") @RequestParam(defaultValue = "1", value = "current") String current,
                         @ApiParam(required = false, value = "查询页数") @RequestParam(defaultValue = "20", value = "size") String size,
                         @ApiParam(required = false, value = "需要排序字段") @RequestParam(defaultValue = "id", value = "orderBy") String orderBy,
                         @ApiParam(required = false, value = "查询关键字") @RequestParam(value = "keyword", required = false) String keyword) {
-        return super.query(modelMap,  ParamUtil.getPageParams(pages, size, keyword, orderBy));
+        return super.query(modelMap,  ParamUtil.getPageParams(current, size, keyword, orderBy));
     }
 
     /**
@@ -94,7 +94,7 @@ public class SysUserController extends AbstractController<ISysProvider> {
     @ApiOperation(value = "更新用户信息")
     @RequiresPermissions("user:remove")
     public Object remove(ModelMap modelMap, @PathVariable Long id) {
-        return super.delete(modelMap, id);
+        return super.del(modelMap, id);
     }
 
 }

@@ -54,8 +54,26 @@ public abstract class AbstractController<T extends BaseProvider> extends BaseCon
         return setSuccessModelMap(modelMap,"更新成功");
     }
 
+    /**
+     * 物理删除
+     * @param modelMap
+     * @param id
+     * @return
+     */
     public Object delete(ModelMap modelMap, Long id) {
         Parameter parameter = new Parameter(getService(), "delete").setId(id);
+        provider.execute(parameter);
+        return setSuccessModelMap(modelMap);
+    }
+
+    /**
+     * 逻辑删除
+     * @param modelMap
+     * @param id
+     * @return
+     */
+    public Object del(ModelMap modelMap, Long id) {
+        Parameter parameter = new Parameter(getService(), "del").setId(id);
         provider.execute(parameter);
         return setSuccessModelMap(modelMap);
     }

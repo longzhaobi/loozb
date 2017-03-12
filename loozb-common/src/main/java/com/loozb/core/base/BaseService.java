@@ -40,8 +40,8 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         Integer current = 1;
         Integer size = 10;
         String orderBy = "id";
-        if (DataUtil.isNotEmpty(params.get("pages"))) {
-            current = Integer.valueOf(params.get("pages").toString());
+        if (DataUtil.isNotEmpty(params.get("current"))) {
+            current = Integer.valueOf(params.get("current").toString());
         }
         if (DataUtil.isNotEmpty(params.get("size"))) {
             size = Integer.valueOf(params.get("size").toString());
@@ -130,13 +130,13 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     }
 
     @Transactional
-    public void del(Long id, Long userId) {
+    public void del(Long id) {
         try {
             T record = this.queryById(id);
             record.setAvailable("0");
             record.setMtime(new Date());
             mapper.updateById(record);
-            CacheUtil.getCache().set(getCacheKey(id), record);
+            CacheUtil.getCache().del(getCacheKey(id));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);

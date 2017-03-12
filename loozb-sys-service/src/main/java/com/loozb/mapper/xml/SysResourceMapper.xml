@@ -2,17 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loozb.mapper.SysResourceMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.loozb.model.SysResource">
-		<result column="pid" property="pid" />
-		<result column="pids" property="pids" />
-		<result column="name" property="name" />
-		<result column="identity" property="identity" />
-		<result column="icon" property="icon" />
-		<result column="url" property="url" />
-		<result column="weight" property="weight" />
-		<result column="menu_type" property="menuType" />
-		<result column="has_permission" property="hasPermission" />
-	</resultMap>
+	<!-- 查询列表-->
+	<select id="selectIdPage" resultType="java.lang.Long">
+		SELECT id FROM sys_resource
+		<where>
+			<if test="cm.pid != null">
+				and (pid =  #{cm.pid} or id = #{cm.pid})
+			</if>
+			<if test="cm.keyword != null">
+				and (name like CONCAT('%',#{cm.keyword},'%') or identity like CONCAT('%',#{cm.keyword},'%'))
+			</if>
+			  and available = '1'
+		</where>
+		ORDER BY id DESC
+	</select>
+
+	<!-- 查询列表-->
+	<select id="selectPidPage" resultType="java.lang.Long">
+		SELECT id FROM sys_resource
+		<where>
+			<if test="cm.pid != null">
+				and (pid =  #{cm.pid} or id = #{cm.pid})
+			</if>
+			<if test="cm.available != null and cm.available != ''">
+				and available = #{cm.available}
+			</if>
+		</where>
+		ORDER BY id DESC
+	</select>
 
 </mapper>

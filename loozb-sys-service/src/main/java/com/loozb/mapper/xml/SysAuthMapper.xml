@@ -2,10 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loozb.mapper.SysAuthMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.loozb.model.SysAuth">
-		<result column="user_id" property="userId" />
-		<result column="role_id" property="roleId" />
-	</resultMap>
+	<!-- 查询列表-->
+	<select id="selectIdPage" resultType="java.lang.Long">
+		SELECT id FROM sys_auth
+		<where>
+			<if test="cm.userId != null">
+				and user_id=#{cm.userId}
+			</if>
+			<if test="cm.roleId != null">
+				and role_id = #{cm.roleId}
+			</if>
+			and available = '1'
+		</where>
+		ORDER BY id DESC
+	</select>
 
 </mapper>

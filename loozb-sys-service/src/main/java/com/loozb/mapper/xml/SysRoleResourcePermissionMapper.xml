@@ -2,11 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loozb.mapper.SysRoleResourcePermissionMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.loozb.model.SysRoleResourcePermission">
-		<result column="role_id" property="roleId" />
-		<result column="resource_id" property="resourceId" />
-		<result column="permission_ids" property="permissionIds" />
-	</resultMap>
+	<!-- 查询列表-->
+	<select id="selectIdPage" resultType="java.lang.Long">
+		SELECT id FROM sys_role_resource_permission
+		<where>
+			<if test="cm.resourceId != null">
+				and resource_id=#{cm.resourceId}
+			</if>
+			<if test="cm.roleId != null">
+				and role_id = #{cm.roleId}
+			</if>
+			  and available = '1'
+		</where>
+		ORDER BY id DESC
+	</select>
 
 </mapper>

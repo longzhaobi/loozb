@@ -3,6 +3,7 @@ package com.loozb.service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.loozb.core.base.BaseService;
+import com.loozb.core.util.ParamUtil;
 import com.loozb.model.SysAuth;
 import com.loozb.model.SysPermission;
 import com.loozb.model.SysRoleResourcePermission;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -85,5 +87,35 @@ public class SysRoleResourcePermissionService extends BaseService<SysRoleResourc
             }
         }
         return srrps;
+    }
+
+    public List<String> getPermissionByRoleIdAndResourceId(Long resourceId, Long roleId) {
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("resourceId", resourceId);
+        params.put("roleId", roleId);
+        params.put("available", "1");
+        List<SysRoleResourcePermission> list = super.queryList(params);
+        List<String> permList = new ArrayList<String>();
+        if (list != null && list.size() == 1) {
+            String ids = list.get(0).getPermissionIds();
+            if (StringUtils.isNotBlank(ids)) {
+                String[] permIds = ids.split(",");
+                for (int i = 0; i < permIds.length; i++) {
+                    SysPermission o = sysPermissionService.queryById(Long
+                            .valueOf(permIds[i]));
+                    if (o != null) {
+                        permList.add(o.getPermission());
+                    }
+                }
+            }
+        }
+        return permList;
+    }
+
+    public List<Long> selectIdsByResourceIdAndRoleId(Long resourceId, Long roleId) {
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("resourceId", resourceId);
+        params.put("roleId", roleId);
+        return mapper.selectIdPage(params);
     }
 }

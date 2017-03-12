@@ -199,13 +199,14 @@ public class XssFilter implements Filter {
 
 		// 判断黑名单
 		String[] inj_stra = { "script", "mid", "master", "truncate", "insert", "select", "delete", "update", "declare",
-				"iframe", "'", "onreadystatechange", "alert", "atestu", "xss", ";", "'", "\"", "<", ">", "(", ")", ",",
+				"iframe", "onreadystatechange", "alert", "atestu", "xss", ";", "'", "\"", "<", ">", "(", ")",
 				"\\", "svg", "confirm", "prompt", "onload", "onmouseover", "onfocus", "onerror" };
 
 		str = str.toLowerCase(); // sql不区分大小写
 
 		for (int i = 0; i < inj_stra.length; i++) {
 			if (str.indexOf(inj_stra[i]) >= 0) {
+				System.out.println(str);
 				logger.info("xss防攻击拦截url:" + url + "，原因：特殊字符，传入str=" + str + ",包含特殊字符：" + inj_stra[i]);
 				return true;
 			}

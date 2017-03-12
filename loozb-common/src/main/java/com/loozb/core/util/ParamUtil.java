@@ -10,12 +10,13 @@ import java.util.Map;
  */
 public class ParamUtil {
 
-    public static Map<String, Object> getPageParams(String pages, String size, String keyWord, String orderBy) {
+    public static Map<String, Object> getPageParams(String current, String size, String keyWord, String orderBy) {
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("pages", pages);
+        param.put("current", current);
         param.put("size", size);
         param.put("keyword", keyWord);
         param.put("orderBy", orderBy);
+        param.put("available", "1");
         return param;
     }
 

@@ -1,6 +1,6 @@
 package com.loozb.core.utils;
 
-import com.loozb.model.ext.SysResourceBean;
+import com.loozb.model.SysResource;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,21 +14,21 @@ import java.util.List;
  */
 public class TreeUtil {
     @SuppressWarnings({ "unchecked" })
-    public static List<SysResourceBean> buildListToTree(List<SysResourceBean> dirs) throws InvocationTargetException, IllegalAccessException {
-        List<SysResourceBean> roots = TreeUtil.findRoots(dirs);
-        List<SysResourceBean> notRoots = (List<SysResourceBean>) CollectionUtils
+    public static List<SysResource> buildListToTree(List<SysResource> dirs) throws InvocationTargetException, IllegalAccessException {
+        List<SysResource> roots = TreeUtil.findRoots(dirs);
+        List<SysResource> notRoots = (List<SysResource>) CollectionUtils
                 .subtract(dirs, roots);
-        for (SysResourceBean root : roots) {
+        for (SysResource root : roots) {
             root.setChildren(TreeUtil.findChildren(root, notRoots));
         }
         return roots;
     }
 
-    private static List<SysResourceBean> findRoots(List<SysResourceBean> allSysResources) throws InvocationTargetException, IllegalAccessException {
-        List<SysResourceBean> results = new ArrayList<SysResourceBean>();
-        for (SysResourceBean resource : allSysResources) {
+    private static List<SysResource> findRoots(List<SysResource> allSysResources) throws InvocationTargetException, IllegalAccessException {
+        List<SysResource> results = new ArrayList<SysResource>();
+        for (SysResource resource : allSysResources) {
             boolean isRoot = true;
-            for (SysResourceBean comparedOne : allSysResources) {
+            for (SysResource comparedOne : allSysResources) {
                 if (resource.getPid() == comparedOne.getId()) {
                     isRoot = false;
                     break;
@@ -43,19 +43,19 @@ public class TreeUtil {
     }
 
     @SuppressWarnings("unchecked")
-    private static List<SysResourceBean> findChildren(SysResourceBean root,
-                                                      List<SysResourceBean> allSysResources) {
-        List<SysResourceBean> children = new ArrayList<SysResourceBean>();
+    private static List<SysResource> findChildren(SysResource root,
+                                                      List<SysResource> allSysResources) {
+        List<SysResource> children = new ArrayList<SysResource>();
 
-        for (SysResourceBean comparedOne : allSysResources) {
+        for (SysResource comparedOne : allSysResources) {
             if (comparedOne.getPid() == root.getId()) {
                 children.add(comparedOne);
             }
         }
-        List<SysResourceBean> notChildren = (List<SysResourceBean>) CollectionUtils
+        List<SysResource> notChildren = (List<SysResource>) CollectionUtils
                 .subtract(allSysResources, children);
-        for (SysResourceBean child : children) {
-            List<SysResourceBean> tmpChildren = findChildren(child, notChildren);
+        for (SysResource child : children) {
+            List<SysResource> tmpChildren = findChildren(child, notChildren);
             if (tmpChildren == null || tmpChildren.size() < 1) {
                 // 叶子节点，如果needRoot为false，则移除
                 child.setLeaf(true);
