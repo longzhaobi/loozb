@@ -92,7 +92,7 @@ public final class PropertiesUtil extends PropertyPlaceholderConfigurer {
     }
 
     public static void main(String[] args) {
-        String encrypt = SecurityUtil.encryptDes("root_123", KEY);
+        String encrypt = SecurityUtil.encryptDes("loozb_1990_today", KEY);
         System.out.println(encrypt);
         System.out.println(SecurityUtil.decryptDes(encrypt, KEY));
     }

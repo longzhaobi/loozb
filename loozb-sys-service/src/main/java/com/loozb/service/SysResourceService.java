@@ -1,7 +1,5 @@
 package com.loozb.service;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.loozb.core.base.BaseService;
 import com.loozb.core.util.ParamUtil;
 import com.loozb.core.utils.TreeUtil;
@@ -84,9 +82,9 @@ public class SysResourceService extends BaseService<SysResource> {
      */
     public List<SysResource> getMenus(Long userId) {
         // 1.先获取所有资源，因为考虑到资源定型后很少更新，所有查询资源时，需要走缓存
-        Wrapper<SysResource> wrapper = new EntityWrapper<SysResource>();
-        wrapper.eq("available", "1");
-        List<SysResource> allResource = mapper.selectList(wrapper);
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("available", "1");
+        List<SysResource> allResource = super.queryList(params);
 
         // 2. 通过userId去获取当前用户拥有的资源ID，并且其拥有查看权限，考虑到权限变动，此处不走缓存，直接查询数据库
         List<SysRoleResourcePermission> srrps = sysRoleResourcePermissionService
@@ -121,7 +119,8 @@ public class SysResourceService extends BaseService<SysResource> {
         for (SysResource resource : allList) {
             Boolean flag = false;
             for (SysRoleResourcePermission s : srrps) {
-                if (resource.getId() == s.getResourceId()) {
+                if (resource.getId().equals(s.getResourceId())) {
+                    System.out.println(resource.getId());
                     resources.add(resource);
                     flag = true;
                     break;

@@ -20,7 +20,7 @@
     <!-- clean package -P build tomcat7:run-war-only -->
 
     <properties>
-        <!-- 开发阶段配置文件位置, 发布时打包加参数：-P product -->
+        <!-- 开发阶段配置文件位置 -->
         <sys.jdbc.config.path>classpath:config/jdbc.properties</sys.jdbc.config.path>
         <system.config.path>classpath:config/system.properties</system.config.path>
         <!-- 编码 -->
@@ -309,12 +309,12 @@
             <version>${jackson.version}</version>
         </dependency>
     </dependencies>
-
+    <!-- 生产模式打包，发布时打包加参数：-P product 指定id为product的profile，否则-P build 指定profile的id为build-->
     <profiles>
         <profile>
             <id>product</id>
             <properties>
-                <sys.jdbc.config.path>file:/home/config/loozb/jdbc-sys.properties</sys.jdbc.config.path>
+                <sys.jdbc.config.path>file:/home/config/loozb/jdbc.properties</sys.jdbc.config.path>
                 <system.config.path>file:/home/config/loozb/system.properties</system.config.path>
             </properties>
         </profile>
