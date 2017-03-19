@@ -120,7 +120,6 @@ public class SysResourceService extends BaseService<SysResource> {
             Boolean flag = false;
             for (SysRoleResourcePermission s : srrps) {
                 if (resource.getId().equals(s.getResourceId())) {
-                    System.out.println(resource.getId());
                     resources.add(resource);
                     flag = true;
                     break;

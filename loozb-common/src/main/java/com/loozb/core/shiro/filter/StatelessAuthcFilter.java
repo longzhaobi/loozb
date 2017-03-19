@@ -4,6 +4,8 @@ import com.loozb.core.shiro.token.StatelessToken;
 import com.loozb.core.util.CookieUtils;
 import com.loozb.core.util.WebUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
 import javax.servlet.ServletRequest;
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class StatelessAuthcFilter extends AccessControlFilter {
-
+	private static Logger logger = LogManager.getLogger(StatelessAuthcFilter.class);
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request,
 			ServletResponse response, Object mappedValue) throws Exception {
@@ -29,6 +31,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 		// 将如从token中取不到token
 		if (StringUtils.isBlank(accessToken)) {
 //			onLoginFail(response);
+			logger.error("未能获取accessToken信息");
 			return false;
 		}
 		String result = WebUtil.getUsernameByToken(accessToken);
