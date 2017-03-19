@@ -5,6 +5,6 @@ MAINTAINER Long Zhao Bi "714037058@qq.com"
 RUN rm -r /usr/local/tomcat/webapps/ROOT
 
 #将打包好的war包部署到webapps目录
-ADD ./target/loozb-sys-web.war /usr/local/tomcat/webapps
+ADD ./target/loozb-sys-web.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
