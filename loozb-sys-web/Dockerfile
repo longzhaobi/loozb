@@ -1,4 +1,4 @@
-FROM tomcat:7-jre8
+FROM loozb/tomcat:7-jre8
 MAINTAINER Long Zhao Bi "714037058@qq.com"
 
 #删除tomcat容器中的ROOT目录
