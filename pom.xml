@@ -20,9 +20,6 @@
     <!-- clean package -P build tomcat7:run-war-only -->
 
     <properties>
-        <!-- 开发阶段配置文件位置 -->
-        <sys.jdbc.config.path>classpath:config/jdbc.properties</sys.jdbc.config.path>
-        <system.config.path>classpath:config/system.properties</system.config.path>
         <!-- 编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- spring版本号 -->
@@ -314,8 +311,8 @@
         <profile>
             <id>product</id>
             <properties>
-                <sys.jdbc.config.path>~/config/loozb/jdbc.properties</sys.jdbc.config.path>
-                <system.config.path>~/config/loozb/system.properties</system.config.path>
+                <sys.jdbc.config.path>classpath:config/product/jdbc.properties</sys.jdbc.config.path>
+                <system.config.path>classpath:config/product/system.properties</system.config.path>
             </properties>
             <build>
                 <finalName>${project.name}</finalName>
@@ -335,7 +332,11 @@
             </build>
         </profile>
         <profile>
-            <id>build</id>
+            <id>develop</id>
+            <properties>
+                <sys.jdbc.config.path>classpath:config/develop/jdbc.properties</sys.jdbc.config.path>
+                <system.config.path>classpath:config/develop/system.properties</system.config.path>
+            </properties>
             <build>
                 <finalName>${project.name}</finalName>
                 <resources>
