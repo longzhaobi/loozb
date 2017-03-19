@@ -317,6 +317,22 @@
                 <sys.jdbc.config.path>file:/home/config/loozb/jdbc.properties</sys.jdbc.config.path>
                 <system.config.path>file:/home/config/loozb/system.properties</system.config.path>
             </properties>
+            <build>
+                <finalName>${project.name}</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/java</directory>
+                        <includes>
+                            <include>**/*.properties</include>
+                            <include>**/*.xml</include>
+                        </includes>
+                        <filtering>true</filtering>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
         </profile>
         <profile>
             <id>build</id>
