@@ -17,7 +17,7 @@ public class SimpleCORSFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 	    HttpServletResponse response = (HttpServletResponse) res;
-            response.setHeader("Access-Control-Allow-Origin", "www.console.loozb.com");
+            response.setHeader("Access-Control-Allow-Origin", "http://www.csl.loozb.com");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers","x-requested-with,Access-Control-Allow-Origin,EX-SysAuthToken,EX-JSESSIONID");
