@@ -17,7 +17,7 @@
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionValidationSchedulerEnabled" value="false"/>
     </bean>
-    
+
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="userRealm"/>
@@ -31,8 +31,8 @@
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
         <property name="arguments" ref="securityManager"/>
-    </bean> 
-	
+    </bean>
+
 	<bean id="currentUserFilter" class="com.loozb.core.shiro.filter.CurrentUserFilter"/>
     <bean id="statelessAuthcFilter" class="com.loozb.core.shiro.filter.StatelessAuthcFilter"/>
 

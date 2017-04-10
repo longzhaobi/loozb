@@ -6,7 +6,7 @@
         SELECT id FROM sys_user
         <where>
             <if test="cm.account != null and cm.account != ''">
-                and email = #{cm.account}
+                and (email = #{cm.account} or username = #{cm.account})
             </if>
             <if test="cm.password != null and cm.password != ''">
                 and password = #{cm.password}

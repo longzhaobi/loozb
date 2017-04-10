@@ -29,7 +29,7 @@ public class TreeUtil {
         for (SysResource resource : allSysResources) {
             boolean isRoot = true;
             for (SysResource comparedOne : allSysResources) {
-                if (resource.getPid() == comparedOne.getId()) {
+                if (resource.getPid().longValue() == comparedOne.getId().longValue()) {
                     isRoot = false;
                     break;
                 }
@@ -44,11 +44,11 @@ public class TreeUtil {
 
     @SuppressWarnings("unchecked")
     private static List<SysResource> findChildren(SysResource root,
-                                                      List<SysResource> allSysResources) {
+                                                  List<SysResource> allSysResources) {
         List<SysResource> children = new ArrayList<SysResource>();
 
         for (SysResource comparedOne : allSysResources) {
-            if (comparedOne.getPid() == root.getId()) {
+            if (comparedOne.getPid().longValue() == root.getId().longValue()) {
                 children.add(comparedOne);
             }
         }

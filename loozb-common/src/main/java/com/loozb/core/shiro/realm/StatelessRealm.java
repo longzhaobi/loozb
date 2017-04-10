@@ -1,5 +1,6 @@
 package com.loozb.core.shiro.realm;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.loozb.core.base.BaseProvider;
 import com.loozb.core.base.Parameter;
 import com.loozb.core.shiro.token.StatelessToken;
@@ -18,6 +19,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -43,7 +46,12 @@ public class StatelessRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = (String) principals.getPrimaryPrincipal();
         if (StringUtils.isNotBlank(username)) {
-            Long userId =  (Long)CacheUtil.getCache().get("REDIS_SESSION:USERID:" + username);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("account", username);
+            Parameter userParameter = new Parameter("sysUserService", "getUserIdByUsername").setMap(params);
+            Long userId = provider.execute(userParameter).getId();
+
+//            Long userId =  (Long)CacheUtil.getCache().get("REDIS_SESSION:USERID:" + username);
             Parameter rolesParameter = new Parameter("sysAuthService", "findRoles").setId(Long.valueOf(userId));
             Set<String> roles = (Set<String>) provider.execute(rolesParameter).getSet();
 

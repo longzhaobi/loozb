@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -67,5 +68,10 @@ public class SysUserService extends BaseService<SysUser> {
         }
         user.setRoleIds(roleIds);
         user.setRoleNames(roleNames);
+    }
+
+    public Long getUserIdByUsername(Map<String, Object> params) {
+        List<SysUser> list = queryList(params);
+        return list == null || list.size() == 0 ? null : list.get(0).getId();
     }
 }
